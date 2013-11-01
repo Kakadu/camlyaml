@@ -1,0 +1,5 @@
+true: package(ostap), rectypes, threads, package(unix)
+<parser.ml>: syntax(camlp5o), package(ostap.syntax)
+<test.*>: package(yojson)
+true: debug
+true: verbose

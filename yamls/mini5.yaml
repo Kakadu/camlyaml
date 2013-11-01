@@ -1,0 +1,8 @@
+name: value
+name2:
+ - ko:
+     k1: z1
+     k2: z2
+ - ro:
+   -  r1: u1
+   -  r2: u2

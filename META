@@ -1,0 +1,5 @@
+version = "0.1"
+description = "Yaml parser"
+requires = "ostap"
+archive(byte) = "yaml.cma"
+archive(native) = "yaml.cmxa"

@@ -1,0 +1,21 @@
+YAML parser in OCaml using parser-combinators from Ostap library.
+
+Dependencies:
+ * yojson from opam (TODO: make this dependency to be need only by tests)
+ * Ostap parser-combinator library (http://ostapers.github.io/)
+
+Current status: Alpha
+
+Supported feature:
+  * Basic ones
+
+Unsupported features:
+* document indicators
+* block and folded scalar indicators
+* relations and references
+* datatypes
+
+Information sources for YAML syntax:
+* Spec 2.1 (http://www.yaml.org/spec/1.2/spec.html)
+* Syntax Cheatsheet (http://yaml.org/refcard.html)
+* Wikipedia description (http://en.wikipedia.org/wiki/YAML)

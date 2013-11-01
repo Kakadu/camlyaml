@@ -1,0 +1,8 @@
+#ocaml
+_build
+*.native
+*.byte
+
+#emacs
+*~
+
