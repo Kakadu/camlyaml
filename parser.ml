@@ -1,6 +1,6 @@
 open Printf
-(*
-    type json =
+
+type json =
         [ `Assoc of (string * json) list
         | `Bool of bool
         | `Float of float
@@ -8,13 +8,13 @@ open Printf
         | `List of json list
         | `Null
         | `String of string ]
-*)
+
 open Ostap
 let repr = Matcher.Token.repr
 let make_reason msg l = new Reason.t (Msg.make msg [||] (Matcher.Token.loc l))
 
 
-let start =
+let start : _ -> (_, json, _) Combinators.result =
   let ostap (
     mapping_item[pos]:
       (* name: <float number> *)

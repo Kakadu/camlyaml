@@ -45,6 +45,20 @@ let tests =
                                                                     ]]])]
                         )
   )
+  ; ("mini6.yaml", Some (`Assoc [("root", `List [`Assoc [("a",`String "b")
+                                                        ;("e",`String "f")
+                                                        ;("c",`String "d")
+                                                        ]
+                                                ])
+                                ])
+  )
+  ; ("mini6.1.yaml", Some (`Assoc [("root", `List [`Assoc [("a",`String "b")
+                                                          ;("e",`String "f")
+                                                          ]
+                                                  ])
+                                   ;("c",`String "d")
+                                ])
+  )
   ; ("input.yaml", None)
   ]
 
