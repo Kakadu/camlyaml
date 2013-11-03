@@ -13,6 +13,29 @@ open Ostap
 let repr = Matcher.Token.repr
 let make_reason msg l = new Reason.t (Msg.make msg [||] (Matcher.Token.loc l))
 
+let inline_value : _ -> _ -> (_, json, _) Combinators.result =
+  let ostap (
+    inline_kvp[loc]:    <(k,_)> : IDENT ":" v : inline_value[loc] { (k,v) }
+    ;
+    inline_object[loc]:
+      <_,(l1,pos1)> : "{" => {l1=fst loc && pos1>=snd loc} =>
+      xs: !(Util.list0)[inline_kvp loc]
+      <_,(l2,_)> : "}" => {l1=l2} =>
+      { let (_: (string * json) list ) = xs in `Assoc xs   }
+    ;
+    inline_value[loc]:
+      <(_,(line1,loc1))> :"[" => {snd loc <= loc1 && fst loc=line1} =>
+      xs: !(Util.list0)[inline_value loc]
+      <(_,(line2,_))> :"]" => { line1=line2 } =>
+      { let (_:json list) = xs in `List xs }
+    | <f,_> : FLOAT     { `Float (float_of_string f) }
+    | <x,_> : LITERAL   { `Int (int_of_string x) }
+    | "\"" <s,_> : TEXTLINE "\""  { `String s }
+    | <s,_> : TEXTLINE  { `String s }
+    | inline_object[loc]
+
+  ) in
+  inline_value
 
 let start : _ -> (_, json, _) Combinators.result =
   let ostap (
@@ -37,6 +60,9 @@ let start : _ -> (_, json, _) Combinators.result =
                   { (key, xs) }
     | <(key,loc)> :IDENT ":" m:mapping1[pos+1]
                   { (key, m) }
+    | <key,loc1> :IDENT => { snd loc1>=pos } =>
+      <_,loc>    :":"
+      x          :inline_value[loc] { (key, x) }
     ;
     mapping[pos]: xs: (mapping_item[pos])*  { `Assoc xs }
     ;
@@ -44,9 +70,7 @@ let start : _ -> (_, json, _) Combinators.result =
     ;
     blockListItem[pos]: <(_k,loc)> :"-" => {snd loc >= pos} =>
                                        r:mapping[snd loc+1] { r }
-    ;(*
-    blockList[pos]: xs: (blockListItem[pos])* { `List xs }
-    ; *)
+    ;
     blockList1[pos]: xs: (blockListItem[pos])+ { `List xs }
     ;
 

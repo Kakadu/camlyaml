@@ -59,6 +59,14 @@ let tests =
                                    ;("c",`String "d")
                                 ])
   )
+  ; ("inline1.yaml", Some (`Assoc ["a", `List [`Int 1; `Int 2; `Int 3]]))
+  ; ("inline2.yaml", Some (`Assoc [("a", `List [`Int 1; `Int 2; `Int 3])
+                                  ;("b", `Assoc [("u",`Int   1)
+                                                ;("v",`String "t t")
+                                                ])
+                                  ]
+                          )
+  )
   ; ("input.yaml", None)
   ]
 
